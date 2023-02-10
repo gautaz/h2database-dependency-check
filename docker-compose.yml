@@ -1,0 +1,24 @@
+services:
+
+  h2:
+    image: ghcr.io/gautaz/h2database-dependency-check:dev
+    build:
+      context: .
+    environment:
+      H2_PASSWD: dev-password
+    ports:
+      - 8082
+
+  dcupdate:
+    image: owasp/dependency-check
+    depends_on:
+      h2:
+        condition: service_healthy
+    command:
+      - --connectionString
+      - jdbc:h2:tcp://h2/~/databases/dependency-check
+      - --dbUser
+      - dc
+      - --dbPassword
+      - dev-password
+      - --updateonly
