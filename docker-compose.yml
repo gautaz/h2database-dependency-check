@@ -8,6 +8,8 @@ services:
       H2_PASSWD: dev-password
     ports:
       - 8082
+    volumes:
+      - h2db:/home/h2/databases
 
   dcupdate:
     image: owasp/dependency-check
@@ -22,3 +24,6 @@ services:
       - --dbPassword
       - dev-password
       - --updateonly
+
+volumes:
+  h2db:
